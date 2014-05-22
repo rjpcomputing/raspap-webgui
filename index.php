@@ -165,26 +165,29 @@ dhcp-range='.$_POST['RangeStart'].','.$_POST['RangeEnd'].',255.255.255.0,'.$_POS
 <input type="button" value="Refresh" onclick="document.location.reload(true)" />
 </form>
 <div class="infoheader">Wireless Information and Statistics</div>
-<div id="intinfo"><div class="intheader">Interface Information</div>
-Interface Name : wlan0<br />
-Interface Status : ' . $strStatus . '<br />
-IP Address : ' . $strIPAddress . '<br />
-Subnet Mask : ' . $strNetMask . '<br />
-Mac Address : ' . $strHWAddress . '<br />
-<div class="intheader">Interface Statistics</div>
-Received Packets : ' . $strRxPackets . '<br />
-Received Bytes : ' . $strRxBytes . '<br /><br />
-Transferred Packets : ' . $strTxPackets . '<br />
-Transferred Bytes : ' . $strTxBytes . '<br />
-</div>
-<div id="wifiinfo">
-<div class="intheader">Wireless Information</div>
-Connected To : ' . $strSSID . '<br />
-AP Mac Address : ' . $strBSSID . '<br />
-Bitrate : ' . $strBitrate . '<br />
-Transmit Power : ' . $strTxPower .'<br />
-Link Quality : ' . $strLinkQuality . '<br />
-Signal Level : ' . $strSignalLevel . '<br />
+<div style="display:table;">
+	<div id="intinfo" style="display:table-cell;">
+		<div class="intheader">Interface Information</div>
+		Interface Name : wlan0<br />
+		Interface Status : ' . $strStatus . '<br />
+		IP Address : ' . $strIPAddress . '<br />
+		Subnet Mask : ' . $strNetMask . '<br />
+		Mac Address : ' . $strHWAddress . '<br />
+		<div class="intheader">Interface Statistics</div>
+		Received Packets : ' . $strRxPackets . '<br />
+		Received Bytes : ' . $strRxBytes . '<br /><br />
+		Transferred Packets : ' . $strTxPackets . '<br />
+		Transferred Bytes : ' . $strTxBytes . '<br />
+	</div>
+	<div id="wifiinfo" style="display:table-cell;">
+		<div class="intheader">Wireless Information</div>
+		Connected To : ' . $strSSID . '<br />
+		AP Mac Address : ' . $strBSSID . '<br />
+		Bitrate : ' . $strBitrate . '<br />
+		Transmit Power : ' . $strTxPower .'<br />
+		Link Quality : ' . $strLinkQuality . '<br />
+		Signal Level : ' . $strSignalLevel . '<br />
+	</div>
 </div>
 </div>
 <div class="intfooter">Information provided by ifconfig and iwconfig</div>';

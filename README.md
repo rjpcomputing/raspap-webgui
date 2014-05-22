@@ -30,7 +30,7 @@ Steps
   ```
 4. Once those modifications are done, git clone the files to `/var/www`. Make sure that there are no files in the `/var/www` directory. There was a default lighttpd index file that I had to delete.
 
-  `git clone https://github.com/rjpcomputing/raspap-webgui.git /var/www`
+  `sudo git clone https://github.com/rjpcomputing/raspap-webgui.git /var/www`
 5. Set the files ownership to `www-data` user.
 
   `sudo chown -R www-data:www-data /var/www`

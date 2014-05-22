@@ -8,21 +8,20 @@ echo '<html>
 <head>
 <link href="styles.css" rel="stylesheet" type="text/css"></link>
 <script type="text/Javascript" src="functions.js"></script>
-<title>Raspbian WiFi Configuration Portal</title>
+<title>WiFi Configuration Portal</title>
 </head>
 <body>
+<meta content="width=device-width, initial-scale=0.8" name="viewport"/>
+<meta content="yes" name="apple-mobile-web-app-capable"/>
+<meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"/>
 <div class="header">
-<h2>Raspbian WiFi Configuration Portal</h2>
+<h2>WiFi Configuration Portal</h2>
 </div>
 <div class="menu">
-<input class="button" type="button" value="WiFi
-Info" name="wlan0_info" onclick="document.location=\'?page=\'+this.name" />
-<input class="button" type="button" value="Configure
-Client" name="wpa_conf" onclick="document.location=\'?page=\'+this.name" />
-<input class="button" type="button" value="Configure
-Hotspot" name="hostapd_conf" onclick="document.location=\'?page=\'+this.name" />
-<input class="button" type="button" value="Configure
-DHCP Server" name="dhcpd_conf" onclick="document.location=\'?page=\'+this.name" />
+<input class="button" type="button" value="WiFi Info" name="wlan0_info" onclick="document.location=\'?page=\'+this.name" />
+<input class="button" type="button" value="Join Network" name="wpa_conf" onclick="document.location=\'?page=\'+this.name" />
+<!--<input class="button" type="button" value="Configure Hotspot" name="hostapd_conf" onclick="document.location=\'?page=\'+this.name" />
+<input class="button" type="button" value="Configure DHCP Server" name="dhcpd_conf" onclick="document.location=\'?page=\'+this.name" />-->
 </div>
 <div class="content">';
 switch($page) {
@@ -140,29 +139,29 @@ dhcp-range='.$_POST['RangeStart'].','.$_POST['RangeEnd'].',255.255.255.0,'.$_POS
 		preg_match('/Signal Level=(-[0-9]+ dBm)/i',$strWlan0,$result);
 		$strSignalLevel = $result[1];
 		if(strpos($strWlan0, "UP") !== false && strpos($strWlan0, "RUNNING") !== false) {
-			$strStatus = '<span style="color:green">Interface is up</span>';
+			$strStatus = '<span style="color:green">WiFi Interface is enabled</span>';
 		} else {
-			$strStatus = '<span style="color:red">Interface is down</span>';
+			$strStatus = '<span style="color:red">WiFi Interface is disabled</span>';
 		}
 		if(isset($_POST['ifdown_wlan0'])) {
-			exec('ifconfig wlan0 | grep -i running | wc -l',$test);
-			if($test[0] == 1) {
+			//exec('ifconfig wlan0 | grep -i running | wc -l',$test);
+			//if($test[0] == 1) {
 				exec('sudo ifdown wlan0',$return);
-			} else {
-				echo 'Interface already down';
-			}
+			//} else {
+			//	echo 'Interface already down';
+			//}
 		} elseif(isset($_POST['ifup_wlan0'])) {
-			exec('ifconfig wlan0 | grep -i running | wc -l',$test);
-			if($test[0] == 0) {
+			//exec('ifconfig wlan0 | grep -i running | wc -l',$test);
+			//if($test[0] == 0) {
 				exec('sudo ifup wlan0',$return);
-			} else {
-				echo 'Interface already up';
-			}
+			//} else {
+			//	echo 'Interface already up';
+			//}
 		}
 	echo '<div class="infobox">
 <form action="/?page=wlan0_info" method="POST">
-<input type="submit" value="ifdown wlan0" name="ifdown_wlan0" />
-<input type="submit" value="ifup wlan0" name="ifup_wlan0" />
+<input type="submit" value="Disable WiFi" name="ifdown_wlan0" />
+<input type="submit" value="Enable WiFi" name="ifup_wlan0" />
 <input type="button" value="Refresh" onclick="document.location.reload(true)" />
 </form>
 <div class="infoheader">Wireless Information and Statistics</div>
@@ -209,8 +208,8 @@ Signal Level : ' . $strSignalLevel . '<br />
 		$output = '<form method="POST" action="/?page=wpa_conf" id="wpa_conf_form"><input type="hidden" id="Networks" name="Networks" /><div class="network" id="networkbox">';
 		for($ssids = 0; $ssids < $numSSIDs; $ssids++) {
 			$output .= '<div id="Networkbox'.$ssids.'" class="NetworkBoxes">Network '.$ssids.' <input type="button" value="Delete" onClick="DeleteNetwork('.$ssids.')" /></span><br />
-<span class="tableft" id="lssid0">SSID :</span><input type="text" id="ssid0" name="ssid'.$ssids.'" value="'.$ssid[$ssids].'" onkeyup="CheckSSID(this)" /><br />
-<span class="tableft" id="lpsk0">PSK :</span><input type="password" id="psk0" name="psk'.$ssids.'" value="'.$psk[$ssids].'" onkeyup="CheckPSK(this)" /></div>';
+<span class="tableft" id="lssid0">SSID: </span><input type="text" id="ssid0" name="ssid'.$ssids.'" value="'.$ssid[$ssids].'" onkeyup="CheckSSID(this)" /><br />
+<span class="tableft" id="lpsk0">Password: </span><input type="password" id="psk0" name="psk'.$ssids.'" value="'.$psk[$ssids].'" onkeyup="CheckPSK(this)" /></div>';
 		}
 		$output .= '</div><input type="submit" value="Scan for Networks" name="Scan" /><input type="button" value="Add Network" onClick="AddNetwork();" /><input type="submit" value="Save" name="SaveWPAPSKSettings" onmouseover="UpdateNetworks(this)" id="Save" disabled />
 </form>';

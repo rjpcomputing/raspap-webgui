@@ -28,7 +28,7 @@ Steps
   ```
   www-data ALL=(ALL) NOPASSWD:/sbin/ifdown wlan0,/sbin/ifup wlan0,/bin/cat /etc/wpa_supplicant/wpa_supplicant.conf,/bin/cp /tmp/wifidata /etc/wpa_supplicant/wpa_supplicant.conf,/sbin/wpa_cli scan_results,/sbin/wpa_cli scan,/bin/cp /tmp/hostapddata /etc/hostapd/hostapd.conf,/etc/init.d/hostapd start,/etc/init.d/hostapd stop,/etc/init.d/dnsmasq start,/etc/init.d/dnsmasq stop,/bin/cp /tmp/dhcpddata /etc/dnsmasq.conf
   ```
-4. Once those modifications are done, git clone the files to `/var/www` and 
+4. Once those modifications are done, git clone the files to `/var/www`. Make sure that there are no files in the `/var/www` directory. There was a default lighttpd index file that I had to delete.
 
   `git clone https://github.com/rjpcomputing/raspap-webgui.git /var/www`
 5. Set the files ownership to `www-data` user.

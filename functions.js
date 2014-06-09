@@ -69,4 +69,6 @@ function DeleteNetwork(network) {
         var Networks = document.getElementById('Networks').value;
 	Networks--
 	document.getElementById('Networks').value = Networks;
+	// Enble save so that user can commit the changes
+	document.getElementById('Save').disabled = false;	
 }

@@ -130,15 +130,16 @@ dhcp-range='.$_POST['RangeStart'].','.$_POST['RangeEnd'].',255.255.255.0,'.$_POS
 		$strSSID = str_replace('"','',$result[1]);
 		preg_match('/Access Point: ([0-9a-f:]+)/i',$strWlan0,$result);
 		$strBSSID = $result[1];
-		preg_match('/Bit Rate=([0-9]+ Mb\/s)/i',$strWlan0,$result);
+		preg_match('/Bit Rate:([0-9]+ Mb\/s)/i',$strWlan0,$result);
 		$strBitrate = $result[1];
-		preg_match('/Tx-Power=([0-9]+ dBm)/i',$strWlan0,$result);
-		$strTxPower = $result[1];
+		preg_match('/Frequency:(\d+.\d+ GHz)/i',$strWlan0,$result);
+		$strFreq = $result[1];
 		preg_match('/Link Quality=([0-9]+\/[0-9]+)/i',$strWlan0,$result);
 		$strLinkQuality = $result[1];
-		preg_match('/Signal Level=(-[0-9]+ dBm)/i',$strWlan0,$result);
+		preg_match('/Signal Level=([0-9]+\/[0-9]+)/i',$strWlan0,$result);
 		$strSignalLevel = $result[1];
-		if(strpos($strWlan0, "UP") !== false && strpos($strWlan0, "RUNNING") !== false) {
+		//if(strpos($strWlan0, "UP") !== false && strpos($strWlan0, "RUNNING") !== false) {
+		if(strpos($strWlan0, "ESSID") !== false ) {
 			$strStatus = '<span style="color:green">WiFi Interface is enabled</span>';
 		} else {
 			$strStatus = '<span style="color:red">WiFi Interface is disabled</span>';
@@ -147,6 +148,7 @@ dhcp-range='.$_POST['RangeStart'].','.$_POST['RangeEnd'].',255.255.255.0,'.$_POS
 			//exec('ifconfig wlan0 | grep -i running | wc -l',$test);
 			//if($test[0] == 1) {
 				exec('sudo ifdown wlan0',$return);
+				echo '<script type="text/Javascript">location.reload( true );</script>';
 			//} else {
 			//	echo 'Interface already down';
 			//}
@@ -154,6 +156,7 @@ dhcp-range='.$_POST['RangeStart'].','.$_POST['RangeEnd'].',255.255.255.0,'.$_POS
 			//exec('ifconfig wlan0 | grep -i running | wc -l',$test);
 			//if($test[0] == 0) {
 				exec('sudo ifup wlan0',$return);
+				echo '<script type="text/Javascript">location.reload( true );</script>';
 			//} else {
 			//	echo 'Interface already up';
 			//}
@@ -184,7 +187,7 @@ dhcp-range='.$_POST['RangeStart'].','.$_POST['RangeEnd'].',255.255.255.0,'.$_POS
 		Connected To : ' . $strSSID . '<br />
 		AP Mac Address : ' . $strBSSID . '<br />
 		Bitrate : ' . $strBitrate . '<br />
-		Transmit Power : ' . $strTxPower .'<br />
+		Frequency : ' . $strFreq .'<br />
 		Link Quality : ' . $strLinkQuality . '<br />
 		Signal Level : ' . $strSignalLevel . '<br />
 	</div>
@@ -240,6 +243,7 @@ update_config=1
 		system('sudo cp /tmp/wifidata /etc/wpa_supplicant/wpa_supplicant.conf',$returnval);
 		if($returnval == 0) {
 			echo "Wifi Settings Updated Successfully";
+			echo '<script type="text/Javascript">location.reload( true );</script>';
 		} else {
 			echo "Wifi settings failed to be updated";
 		}

@@ -20,7 +20,7 @@ Steps
 
   ```
   sudo lighty-enable-mod fastcgi-php
-  sudo service restart
+  sudo service lighttpd restart
   ```
 3. Edit `/etc/sudoers` to allow the *www-data* user to call the necessary commands. Add the following line to the end of the file.
 

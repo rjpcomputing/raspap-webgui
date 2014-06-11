@@ -9,13 +9,14 @@ A raspberry pi with raspbian running on it. You will need to ssh into it to set 
 The Packages required for the WebGUI are:
 * lighttpd
 * php5-cgi
+* isc-dhcp-server
 * git
 
 Steps
 =====
 1. Install required packages
 
-  `sudo apt-get install lighttpd php5-cgi git`
+  `sudo apt-get install lighttpd php5-cgi git isc-dhcp-server`
 2. Enable php in lighttpd
 
   ```
@@ -34,4 +35,34 @@ Steps
 5. Set the files ownership to `www-data` user.
 
   `sudo chown -R www-data:www-data /var/www`
-* It should be up and running!
+6. Configure a static IP for the Pi
+  * Edit `/etc/network/interfaces`
+  
+  `sudo nano /etc/network/interfaces`
+  * Find and remove dhcp entry
+  `iface eth0 inet dhcp`
+  * Append new network settings
+  ```
+  iface eth0 inet static
+  address 10.0.0.1
+  netmask 255.255.255.0
+  dns-nameservers 8.8.8.8 8.8.4.4
+  ```
+7. Configure `dhcpd` by editing `/etc/dhcp/dhcpd.conf`
+  * `sudo nano /etc/dhcp/dhcpd.conf`
+  * Add the following to the end of the file
+  ```
+  subnet 10.0.0.0 netmask 255.255.255.0 
+  {
+    range 10.0.0.50 10.0.0.99;
+    option routers 10.0.0.254;
+    option domain-name "local";
+    option domain-name-servers 8.8.8.8, 8.8.4.4;
+  };
+
+  ```
+8. Open `/etc/default/isc-dhcp-server` and change the `INTERFACES=""` to `INTERFACES="eth0"`
+
+  `sudo nano /etc/default/isc-dhcp-server`
+* Reboot and it should be up and running!
+  `sudo reboot`

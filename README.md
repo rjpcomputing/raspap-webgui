@@ -58,8 +58,7 @@ Steps
     option routers 10.0.0.254;
     option domain-name "local";
     option domain-name-servers 8.8.8.8, 8.8.4.4;
-  };
-
+  }
   ```
 8. Open `/etc/default/isc-dhcp-server` and change the `INTERFACES=""` to `INTERFACES="eth0"`
 

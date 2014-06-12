@@ -2,6 +2,8 @@ raspap-webgui
 =============
 Started and modified from here (http://sirlagz.net/2013/02/08/raspap-webgui/)
 
+Found this article very helpful for setting up DHCP (https://learn.adafruit.com/setting-up-a-raspberry-pi-as-a-wifi-access-point/install-software)
+
 Requirements
 ============
 A raspberry pi with raspbian running on it. You will need to ssh into it to set this up.

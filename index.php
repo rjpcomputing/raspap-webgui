@@ -214,9 +214,8 @@ dhcp-range='.$_POST['RangeStart'].','.$_POST['RangeEnd'].',255.255.255.0,'.$_POS
 <span class="tableft" id="lssid0">SSID: </span><input type="text" id="ssid0" name="ssid'.$ssids.'" value="'.$ssid[$ssids].'" onkeyup="CheckSSID(this)" /><br />
 <span class="tableft" id="lpsk0">Password: </span><input type="password" id="psk0" name="psk'.$ssids.'" value="'.$psk[$ssids].'" onkeyup="CheckPSK(this)" /></div>';
 		}
-		$output .= '</div><input type="submit" value="Scan for Networks" name="Scan" /><input type="button" value="Add Network" onClick="AddNetwork();" /><input type="submit" value="Save" name="SaveWPAPSKSettings" onmouseover="UpdateNetworks(this)" id="Save" disabled />
+		$output .= '</div><input type="submit" value="Scan for Networks" name="Scan" /><input type="button" value="Add Network" onClick="AddNetwork();" /><input type="submit" value="Save" name="SaveWPAPSKSettings" id="Save" disabled />
 </form>';
-
 	echo $output;
 	echo '<script type="text/Javascript">UpdateNetworks()</script>';
 
@@ -226,14 +225,17 @@ update_config=1
 
 ';
 		$networks = $_POST['Networks'];
+		$ok = false;
 		for($x = 0; $x < $networks; $x++) {
 			$network = '';
 			$ssid = escapeshellarg($_POST['ssid'.$x]);
 			$psk = escapeshellarg($_POST['psk'.$x]);
 			exec('wpa_passphrase '.$ssid. ' ' . $psk,$network);
 			foreach($network as $b) {
-				$config .= "$b
+				if("Passphrase must be 8..63 characters" != $b) {
+					$config .= "$b
 ";
+				}
 			}
 		}
 		exec("echo '$config' > /tmp/wifidata",$return);
@@ -245,6 +247,7 @@ update_config=1
                         exec('sudo ifup wlan0',$return);
 			echo '<script type="text/Javascript">location.reload( true );</script>';
 		} else {
+			echo $network;
 			echo "Wifi settings failed to be updated";
 		}
 	} elseif(isset($_POST['Scan'])) {

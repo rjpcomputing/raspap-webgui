@@ -112,6 +112,7 @@ dhcp-range='.$_POST['RangeStart'].','.$_POST['RangeEnd'].',255.255.255.0,'.$_POS
 		exec('iwconfig wlan0',$return);
 		$strWlan0 = implode(" ",$return);
 		$strWlan0 = preg_replace('/\s\s+/', ' ', $strWlan0);
+		echo '<script type="text/Javascript" src="autorefresh.js"></script>';
 		preg_match('/HWaddr ([0-9a-f:]+)/i',$strWlan0,$result);
 		$strHWAddress = $result[1];
 		preg_match('/inet addr:([0-9.]+)/i',$strWlan0,$result);
@@ -140,31 +141,27 @@ dhcp-range='.$_POST['RangeStart'].','.$_POST['RangeEnd'].',255.255.255.0,'.$_POS
 		$strSignalLevel = $result[1];
 		//if(strpos($strWlan0, "UP") !== false && strpos($strWlan0, "RUNNING") !== false) {
 		if(strpos($strWlan0, "ESSID") !== false ) {
-			$strStatus = '<span style="color:green">WiFi Interface is enabled</span>';
+			$strStatus = '<span style="color:green">WiFi Interface is connected</span>';
 		} else {
-			$strStatus = '<span style="color:red">WiFi Interface is disabled</span>';
+			$strStatus = '<span style="color:red">WiFi Interface is disconnected</span>';
 		}
 		if(isset($_POST['ifdown_wlan0'])) {
-			//exec('ifconfig wlan0 | grep -i running | wc -l',$test);
-			//if($test[0] == 1) {
-				exec('sudo ifdown wlan0',$return);
-				echo '<script type="text/Javascript">location.reload( true );</script>';
-			//} else {
-			//	echo 'Interface already down';
-			//}
+			exec('sudo ifdown wlan0',$return);
+			echo '<script type="text/Javascript">location.reload( true );</script>';
 		} elseif(isset($_POST['ifup_wlan0'])) {
-			//exec('ifconfig wlan0 | grep -i running | wc -l',$test);
-			//if($test[0] == 0) {
-				exec('sudo ifup wlan0',$return);
-				echo '<script type="text/Javascript">location.reload( true );</script>';
-			//} else {
-			//	echo 'Interface already up';
-			//}
+			exec('sudo ifup wlan0',$return);
+			echo '<script type="text/Javascript">location.reload( true );</script>';
+		} elseif(isset($_POST['restart_wlan0'])) {
+			exec('sudo ifdown wlan0',$return);
+			//sleep(3);
+			exec('sudo ifup wlan0',$return);
+			echo '<script type="text/Javascript">location.reload( true );</script>';
 		}
 	echo '<div class="infobox">
 <form action="/?page=wlan0_info" method="POST">
-<input type="submit" value="Disable WiFi" name="ifdown_wlan0" />
-<input type="submit" value="Enable WiFi" name="ifup_wlan0" />
+<input type="submit" value="Restart WiFi" name="restart_wlan0" />
+<!--<input type="submit" value="Disable WiFi" name="ifdown_wlan0" />
+<input type="submit" value="Enable WiFi" name="ifup_wlan0" />-->
 <input type="button" value="Refresh" onclick="document.location.reload(true)" />
 </form>
 <div class="infoheader">Wireless Information and Statistics</div>
@@ -243,12 +240,16 @@ update_config=1
 		system('sudo cp /tmp/wifidata /etc/wpa_supplicant/wpa_supplicant.conf',$returnval);
 		if($returnval == 0) {
 			echo "Wifi Settings Updated Successfully";
+			exec('sudo ifdown wlan0',$return);
+                        //sleep(3);
+                        exec('sudo ifup wlan0',$return);
 			echo '<script type="text/Javascript">location.reload( true );</script>';
 		} else {
 			echo "Wifi settings failed to be updated";
 		}
 	} elseif(isset($_POST['Scan'])) {
 		$return = '';
+		exec('sudo ifup wlan0',$return);
 		exec('sudo wpa_cli scan',$return);
 		sleep(5);
 		exec('sudo wpa_cli scan_results',$return);

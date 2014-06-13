@@ -51,6 +51,22 @@ Steps
   dns-nameservers 8.8.8.8 8.8.4.4
   ```
   * Find and change `iface default inet dhcp` to `iface wlan0 inet dhcp`. This is under the wlan0 setup.
+  * Example of `/etc/network/interfaces` after all changes are made:
+  ```
+  auto lo
+  
+  iface lo inet loopback
+  auto eth0
+  iface eth0 inet static
+  address 10.0.0.1
+  netmask 255.255.255.0
+  dns-nameservers 8.8.8.8 8.8.4.4
+  
+  allow-hotplug wlan0
+  iface wlan0 inet manual
+  wpa-roam /etc/wpa_supplicant/wpa_supplicant.conf
+  iface wlan0 inet dhcp
+  ```
 7. Configure `dhcpd` by editing `/etc/dhcp/dhcpd.conf`
   * `sudo nano /etc/dhcp/dhcpd.conf`
   * Add the following to the end of the file

@@ -50,6 +50,7 @@ Steps
   netmask 255.255.255.0
   dns-nameservers 8.8.8.8 8.8.4.4
   ```
+  * Find and change `iface default inet dhcp` to `iface wlan0 inet dhcp`. This is under the wlan0 setup.
 7. Configure `dhcpd` by editing `/etc/dhcp/dhcpd.conf`
   * `sudo nano /etc/dhcp/dhcpd.conf`
   * Add the following to the end of the file

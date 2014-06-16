@@ -45,10 +45,34 @@ Steps
   `iface eth0 inet dhcp`
   * Append new network settings
   ```
+  auto eth0
+  allow-hotplug eth0
   iface eth0 inet static
   address 10.0.0.1
   netmask 255.255.255.0
   dns-nameservers 8.8.8.8 8.8.4.4
+  ```
+  * Find and change `iface wlan0 inet manual` to `iface wlan0 inet dhcp`. This is under the wlan0 setup.
+  * Comment out `iface default inet dhcp` and `allow-hotplug wlan0` using the '#' character at the beginning of the line(s).
+  * Example of `/etc/network/interfaces` after all changes are made:
+  ```
+  auto lo
+  iface lo inet loopback
+  
+  #iface eth0 inet dhcp
+  auto eth0
+  allow-hotplug eth0
+  iface eth0 inet static
+  address 10.0.0.1
+  netmask 255.255.255.0
+  dns-nameservers 8.8.8.8 8.8.4.4
+  
+  auto wlan0
+  #allow-hotplug wlan0
+  iface wlan0 inet dhcp
+  wpa-conf /etc/wpa_supplicant/wpa_supplicant.conf
+  #iface default inet dhcp
+
   ```
 7. Configure `dhcpd` by editing `/etc/dhcp/dhcpd.conf`
   * `sudo nano /etc/dhcp/dhcpd.conf`
@@ -65,5 +89,14 @@ Steps
 8. Open `/etc/default/isc-dhcp-server` and change the `INTERFACES=""` to `INTERFACES="eth0"`
 
   `sudo nano /etc/default/isc-dhcp-server`
+9. Install and configure the auto-reconnect WiFi script (wifi-check).
+  * Copy 'wifi-check' to `/usr/local/bin/wifi-check`
+    * `sudo cp /var/www/wifi-check /usr/local/bin/wifi-check`
+    * `sudo chmod +x /usr/local/bin/wifi-check`
+  * Add it to cron so it runs every 5 minutes
+    * `sudo crontab`
+    * Append the line `*/5 * * * * /usr/local/bin/wifi-check` to the end of the file
+    * Save the file
 * Reboot and it should be up and running!
+  
   `sudo reboot`

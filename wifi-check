@@ -67,7 +67,8 @@ if ifconfig $wlan | grep -q "inet addr:" ; then
     echo "Network is Okay"
 else
     # Only allow re-connection if the eth0 is not physically connected
-    if `cat /sys/class/net/eth0/operstate` == "down" ; then
+    isWireConnected=`cat /sys/class/net/eth0/operstate`
+    if [ "$isWireConnected" == "down" ]; then
         echo "Network connection down! Attempting reconnection."
         ifdown $wlan
         sleep 5

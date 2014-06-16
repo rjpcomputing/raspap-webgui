@@ -65,11 +65,14 @@ echo "Performing Network check for $wlan"
 if ifconfig $wlan | grep -q "inet addr:" ; then
     echo "Network is Okay"
 else
-    echo "Network connection down! Attempting reconnection."
-    ifdown $wlan
-    sleep 5
-    ifup --force $wlan
-    ifconfig $wlan | grep "inet addr"
+    # Only allow re-connection if the eth0 is not physically connected
+    if `cat /sys/class/net/eth0/operstate` == "down" ; then
+        echo "Network connection down! Attempting reconnection."
+        ifdown $wlan
+        sleep 5
+        ifup --force $wlan
+        ifconfig $wlan | grep "inet addr"
+    fi
 fi
 
 echo 

@@ -38,6 +38,7 @@ lockfile='/var/run/wifi-check.pid'
 # Which Interface do you want to check/fix
 wlan='wlan0'
 ##################################################################
+PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
 echo
 echo "Starting WiFi check for $wlan"
 date

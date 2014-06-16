@@ -12,14 +12,13 @@ The Packages required for the WebGUI are:
 * lighttpd
 * php5-cgi
 * isc-dhcp-server
-* ethtool
 * git
 
 Steps
 =====
 1. Install required packages
 
-  `sudo apt-get install lighttpd php5-cgi git isc-dhcp-server ethtool`
+  `sudo apt-get install lighttpd php5-cgi git isc-dhcp-server`
 2. Enable php in lighttpd
 
   ```

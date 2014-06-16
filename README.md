@@ -90,7 +90,7 @@ Steps
 
   `sudo nano /etc/default/isc-dhcp-server`
 9. Install and configure the auto-reconnect WiFi script (wifi-check).
-  * Make a symlink from 'wifi-check' to `/usr/local/bin/wifi-check`
+  * Copy 'wifi-check' to `/usr/local/bin/wifi-check`
     * `sudo cp /var/www/wifi-check /usr/local/bin/wifi-check`
     * `sudo chmod +x /usr/local/bin/wifi-check`
   * Add it to cron so it runs every 5 minutes

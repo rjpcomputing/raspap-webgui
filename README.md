@@ -94,7 +94,7 @@ Steps
     * `sudo cp /var/www/wifi-check /usr/local/bin/wifi-check`
     * `sudo chmod +x /usr/local/bin/wifi-check`
   * Add it to cron so it runs every 5 minutes
-    * `sudo crontab`
+    * `sudo crontab -e`
     * Append the line `*/5 * * * * /usr/local/bin/wifi-check` to the end of the file
     * Save the file
 * Reboot and it should be up and running!

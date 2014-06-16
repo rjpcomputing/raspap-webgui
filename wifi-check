@@ -74,6 +74,8 @@ else
         sleep 5
         ifup --force $wlan
         ifconfig $wlan | grep "inet addr"
+    else
+        echo "Network connection down, but not reconnecting because eth0 is connected and configuring device."
     fi
 fi
 

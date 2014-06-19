@@ -214,7 +214,7 @@ dhcp-range='.$_POST['RangeStart'].','.$_POST['RangeEnd'].',255.255.255.0,'.$_POS
 <span class="tableft" id="lssid0">SSID: </span><input type="text" id="ssid0" name="ssid'.$ssids.'" value="'.$ssid[$ssids].'" onkeyup="CheckSSID(this)" /><br />
 <span class="tableft" id="lpsk0">Password: </span><input type="password" id="psk0" name="psk'.$ssids.'" value="'.$psk[$ssids].'" onkeyup="CheckPSK(this)" /></div>';
 		}
-		$output .= '</div><input type="submit" value="Scan for Networks" name="Scan" /><input type="button" value="Add Network" onClick="AddNetwork();" /><input type="submit" value="Save" name="SaveWPAPSKSettings" id="Save" disabled />
+		$output .= '</div><input type="submit" value="Save" name="SaveWPAPSKSettings" id="Save" disabled /><input type="button" value="Add Hidden Network" id="add-network" onClick="AddNetwork();" /><input type="submit" value="Scan for Networks" name="Scan" id="scan-network" />
 </form>';
 	echo $output;
 	echo '<script type="text/Javascript">UpdateNetworks()</script>';
